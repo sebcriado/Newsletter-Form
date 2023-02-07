@@ -47,6 +47,9 @@ CREATE TABLE `subscriber` (
   `lastname` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+
+
 --
 -- Index pour les tables déchargées
 --
