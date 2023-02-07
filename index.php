@@ -11,6 +11,7 @@ $email = '';
 $firstname = '';
 $lastname = '';
 
+
 // Si le formulaire a été soumis...
 if (!empty($_POST)) {
 
@@ -18,6 +19,7 @@ if (!empty($_POST)) {
     $email = trim($_POST['email']);
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
+
 
     // On récupère l'origine
     $selectOrigin = $_POST['origine'];
@@ -34,6 +36,8 @@ if (!empty($_POST)) {
     if (!$lastname) {
         $errors['nom'] = "Merci d'indiquer un nom";
     }
+
+
 
     // Si tout est OK (pas d'erreur)
     if (empty($errors)) {
