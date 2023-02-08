@@ -1,6 +1,17 @@
 <?php
+session_start();
 
+// Message de succès
+if (!empty($_POST)) {
+    $_SESSION['message'] = $_POST;
+    header("Location: " . $_SERVER["PHP_SELF"]);
+    exit;
+}
 
+if (isset($_SESSION['message'])) {
+    $_POST = $_SESSION['message'];
+    unset($_SESSION['message']);
+}
 // Inclusion des dépendances
 require 'config.php';
 require 'functions.php';
@@ -33,6 +44,28 @@ if (!empty($_POST)) {
         $errors['email'] = "Merci d'indiquer une adresse mail";
     }
 
+    $dsn = 'mysql:dbname=' . DB_NAME . ';host=' . DB_HOST;
+
+    // Tableau d'options pour la connexion PDO
+    $options = [
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    ];
+
+    // Création de la connexion PDO (création d'un objet PDO)
+    $pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $options);
+    $pdo->exec('SET NAMES UTF8');
+
+    $reqMail = $pdo->prepare("SELECT * FROM subscriber WHERE email=?");
+    $reqMail->execute(array($email));
+    $mailExist = $reqMail->rowCount();
+
+    if ($mailExist == 1) {
+        $errors['email'] = "L'adresse mail existe déjà";
+    }
+
+
+
     if (!$firstname) {
         $errors['prenom'] = "Merci d'indiquer un prénom";
     }
@@ -55,8 +88,7 @@ if (!empty($_POST)) {
         // Ajout de l'email dans le fichier csv
         addSubscriber($email, $firstname, $lastname, $selectOrigin, $selectInterest);
 
-        // Message de succès
-        $success  = 'Merci de votre inscription';
+        $success = "Votre inscription est prise en compte";
     }
 }
 
@@ -71,7 +103,7 @@ $origines = getAllOrigins();
 $interests = getAllInterest();
 
 // Vérification si l'email existe
-$mailExist = emailExist($email, $errors);
+
 
 
 // Inclusion du template
