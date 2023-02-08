@@ -1,7 +1,0 @@
-Le dépôt github contient un fichier à la racine nommé newsletter.sql qui contient l’export de la structure de la base de données que vous aurez créée.
-Une fois le fichier importé la base est correctement créée, la structure correspond aux notes du stagiaires mais les noms de tables et de champs sont en anglais.
-Le formulaire est fonctionnel après les modifications faites dans le code sur le nom des champs.
-La procédure d’import des données est fonctionnelle en ligne de commande et importe correctement les données du fichier CSV fourni.
-Le dépôt github ne contient pas d’idnetifiants de connexion à la base de données mais contient un fichier nommé config.example.php contenant des données de démonstration.
-La nature de la relation entre les tables des abonnés et des origines est bien comprise.
-Le dépôt github contient des issues qui correspondent aux différentes étapes décrites dans le brief. Toutes les issues sont validées.
