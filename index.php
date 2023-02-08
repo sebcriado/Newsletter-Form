@@ -10,6 +10,7 @@ $success = null;
 $email = '';
 $firstname = '';
 $lastname = '';
+// $interest = [];
 
 
 // Si le formulaire a été soumis...
@@ -19,8 +20,8 @@ if (!empty($_POST)) {
     $email = trim($_POST['email']);
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
-    $interest = $_POST['interest'];
-    var_dump($interest);
+    $selectInterest = $_POST['interest'];
+
 
 
     // On récupère l'origine
@@ -39,6 +40,9 @@ if (!empty($_POST)) {
         $errors['nom'] = "Merci d'indiquer un nom";
     }
 
+    if ($selectOrigin < 2) {
+        $errors['origine'] = "Veuillez sélectionner au moins un champ";
+    }
 
 
     // Si tout est OK (pas d'erreur)
@@ -58,6 +62,9 @@ if (!empty($_POST)) {
 
 // Sélection de la liste des origines
 $origines = getAllOrigins();
+
+// Sélection de la liste des intérêts
+$interests = getAllInterest();
 
 // Inclusion du template
 include 'index.phtml';
