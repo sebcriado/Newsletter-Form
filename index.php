@@ -19,6 +19,8 @@ if (!empty($_POST)) {
     $email = trim($_POST['email']);
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
+    $interest = $_POST['interest'];
+    var_dump($interest);
 
 
     // On récupère l'origine
