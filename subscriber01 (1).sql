@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : mer. 08 fév. 2023 à 08:47
+-- Généré le : mer. 08 fév. 2023 à 12:34
 -- Version du serveur : 5.7.39
 -- Version de PHP : 8.2.0
 
@@ -31,6 +31,19 @@ CREATE TABLE `interest` (
   `id` int(11) NOT NULL,
   `interestLabel` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `interest`
+--
+
+INSERT INTO `interest` (`id`, `interestLabel`) VALUES
+(1, 'Peinture'),
+(2, 'Sculpture'),
+(3, 'Photographie'),
+(4, 'Art contemporain'),
+(5, 'Films'),
+(6, 'Art numérique\r\n'),
+(7, 'Installations');
 
 -- --------------------------------------------------------
 
@@ -74,14 +87,10 @@ CREATE TABLE `subscriber` (
 --
 
 INSERT INTO `subscriber` (`id`, `idOrigin`, `idInterest`, `dateCreate`, `email`, `firstname`, `lastname`) VALUES
-(1, NULL, 0, '2023-02-03', 'alfred.dupont@gmail.com', 'Alfred', 'Dupont'),
-(2, NULL, 0, '2023-02-03', 'b.lav@hotmail.fr', 'Bertrand', 'Lavoisier'),
-(3, NULL, 0, '2023-02-03', 'sarahlamine@gmail.com', 'Sarah', 'Lamine'),
-(4, NULL, 0, '2023-02-03', 'mo78@laposte.net', 'Mohamed', 'Ben Salam'),
-(5, 3, 0, '2023-02-07', 'contact.sebastiencriado@gmail.com', 'Sébastien', 'Criado'),
-(6, 1, 0, '2023-02-07', 'contact.sebastiencriado@gmail.com', 'Sébastien', 'Criado'),
-(7, 2, NULL, '2023-02-07', 'patrick@gmail.com', 'patrick', 'Pat'),
-(8, 3, NULL, '2023-02-07', 'jeanpaul@free.fr', 'jean-paul', 'Dupont');
+(1, NULL, NULL, '2023-02-08', 'alfred.dupont@gmail.com', 'Alfred', 'Dupont'),
+(2, NULL, NULL, '2023-02-08', 'b.lav@hotmail.fr', 'Bertrand', 'Lavoisier'),
+(3, NULL, NULL, '2023-02-08', 'sarahlamine@gmail.com', 'Sarah', 'Lamine'),
+(4, NULL, NULL, '2023-02-08', 'mo78@laposte.net', 'Mohamed', 'Ben Salam');
 
 --
 -- Index pour les tables déchargées
@@ -114,7 +123,7 @@ ALTER TABLE `subscriber`
 -- AUTO_INCREMENT pour la table `interest`
 --
 ALTER TABLE `interest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `origins`
@@ -126,7 +135,7 @@ ALTER TABLE `origins`
 -- AUTO_INCREMENT pour la table `subscriber`
 --
 ALTER TABLE `subscriber`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Contraintes pour les tables déchargées

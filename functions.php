@@ -84,3 +84,26 @@ function getAllInterest()
 
     return $query->fetchAll();
 }
+
+function emailExist($email, $errors)
+{
+    $dsn = 'mysql:dbname=' . DB_NAME . ';host=' . DB_HOST;
+
+    // Tableau d'options pour la connexion PDO
+    $options = [
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    ];
+
+    // Création de la connexion PDO (création d'un objet PDO)
+    $pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $options);
+    $pdo->exec('SET NAMES UTF8');
+
+    $reqMail = $pdo->prepare("SELECT * FROM subscriber WHERE email=?");
+    $reqMail->execute(array($email));
+    $mailExist = $reqMail->rowCount();
+
+    if ($mailExist == 1) {
+        $errors['email'] = "L'adresse mail existe déjà";
+    }
+}

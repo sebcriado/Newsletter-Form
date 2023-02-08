@@ -20,13 +20,14 @@ if (!empty($_POST)) {
     $email = trim($_POST['email']);
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
-    $selectInterest = $_POST['interest'];
-
-
+    $selectInterest = '';
 
     // On récupère l'origine
     $selectOrigin = $_POST['origine'];
 
+    if (isset($_POST['interest'])) {
+        $selectInterest = $_POST['interest'];
+    }
     // Validation 
     if (!$email) {
         $errors['email'] = "Merci d'indiquer une adresse mail";
@@ -44,12 +45,15 @@ if (!empty($_POST)) {
         $errors['origine'] = "Veuillez sélectionner au moins un champ";
     }
 
+    if (!$selectInterest) {
+        $errors['interest'] = "Veuillez sélectionner au moins une case";
+    }
 
     // Si tout est OK (pas d'erreur)
     if (empty($errors)) {
 
         // Ajout de l'email dans le fichier csv
-        addSubscriber($email, $firstname, $lastname, $selectOrigin);
+        addSubscriber($email, $firstname, $lastname, $selectOrigin, $selectInterest);
 
         // Message de succès
         $success  = 'Merci de votre inscription';
@@ -65,6 +69,10 @@ $origines = getAllOrigins();
 
 // Sélection de la liste des intérêts
 $interests = getAllInterest();
+
+// Vérification si l'email existe
+$mailExist = emailExist($email, $errors);
+
 
 // Inclusion du template
 include 'index.phtml';
