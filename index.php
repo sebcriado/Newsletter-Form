@@ -16,12 +16,15 @@ if (isset($_SESSION['message'])) {
 require 'config.php';
 require 'functions.php';
 
-$errors = [];
 $success = null;
 $email = '';
 $firstname = '';
 $lastname = '';
+$selectOrigin = '';
+// $selectInterest = '';
 // $interest = [];
+$errors = [];
+// $errors = errors($errors, $email, $firstname, $lastname, $selectOrigin, $selectInterest);
 
 
 // Si le formulaire a été soumis...
@@ -39,54 +42,41 @@ if (!empty($_POST)) {
     if (isset($_POST['interest'])) {
         $selectInterest = $_POST['interest'];
     }
+
+    $errors = errors($errors, $email, $firstname, $lastname, $selectOrigin, $selectInterest);
     // Validation 
-    if (!$email) {
-        $errors['email'] = "Merci d'indiquer une adresse mail";
-    }
-
-    $dsn = 'mysql:dbname=' . DB_NAME . ';host=' . DB_HOST;
-
-    // Tableau d'options pour la connexion PDO
-    $options = [
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ];
-
-    // Création de la connexion PDO (création d'un objet PDO)
-    $pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $options);
-    $pdo->exec('SET NAMES UTF8');
-
-    $reqMail = $pdo->prepare("SELECT * FROM subscriber WHERE email=?");
-    $reqMail->execute(array($email));
-    $mailExist = $reqMail->rowCount();
-
-    if ($mailExist == 1) {
-        $errors['email'] = "L'adresse mail existe déjà";
-    }
+    // if (!$email) {
+    //     $errors['email'] = "Merci d'indiquer une adresse mail";
+    // }
 
 
+    // if (emailExist($email)) {
+    //     $errors['email'] = "Le mail existe déjà";
+    // }
 
-    if (!$firstname) {
-        $errors['prenom'] = "Merci d'indiquer un prénom";
-    }
 
-    if (!$lastname) {
-        $errors['nom'] = "Merci d'indiquer un nom";
-    }
+    // if (!$firstname) {
+    //     $errors['prenom'] = "Merci d'indiquer un prénom";
+    // }
 
-    if ($selectOrigin < 2) {
-        $errors['origine'] = "Veuillez sélectionner au moins un champ";
-    }
+    // if (!$lastname) {
+    //     $errors['nom'] = "Merci d'indiquer un nom";
+    // }
 
-    if (!$selectInterest) {
-        $errors['interest'] = "Veuillez sélectionner au moins une case";
-    }
+    // if ($selectOrigin < 2) {
+    //     $errors['origine'] = "Veuillez sélectionner au moins un champ";
+    // }
+
+    // if (!$selectInterest) {
+    //     $errors['interest'] = "Veuillez sélectionner au moins une case";
+    // }
 
     // Si tout est OK (pas d'erreur)
     if (empty($errors)) {
 
         // Ajout de l'email dans le fichier csv
-        addSubscriber($email, $firstname, $lastname, $selectOrigin, $selectInterest);
+        $subscriberId = addSubscriber($email, $firstname, $lastname, $selectOrigin, $selectInterest);
+        getAllInterestId($subscriberId, $selectInterest);
 
         $success = "Votre inscription est prise en compte";
     }
@@ -101,8 +91,6 @@ $origines = getAllOrigins();
 
 // Sélection de la liste des intérêts
 $interests = getAllInterest();
-
-// Vérification si l'email existe
 
 
 
