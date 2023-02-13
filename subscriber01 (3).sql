@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : jeu. 09 fév. 2023 à 09:28
+-- Généré le : lun. 13 fév. 2023 à 15:45
 -- Version du serveur : 5.7.39
 -- Version de PHP : 8.2.0
 
@@ -131,8 +131,8 @@ ALTER TABLE `subscriber`
 -- Index pour la table `subscriberInterest`
 --
 ALTER TABLE `subscriberInterest`
-  ADD KEY `fk_subscriber` (`subscriberId`),
-  ADD KEY `fk_interest_id` (`interestId`);
+  ADD KEY `fk_interest_id` (`interestId`),
+  ADD KEY `fk_subscriber` (`subscriberId`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -154,7 +154,7 @@ ALTER TABLE `origins`
 -- AUTO_INCREMENT pour la table `subscriber`
 --
 ALTER TABLE `subscriber`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Contraintes pour les tables déchargées
@@ -171,8 +171,8 @@ ALTER TABLE `subscriber`
 -- Contraintes pour la table `subscriberInterest`
 --
 ALTER TABLE `subscriberInterest`
-  ADD CONSTRAINT `fk_interest_id` FOREIGN KEY (`interestId`) REFERENCES `interest` (`id`),
-  ADD CONSTRAINT `fk_subscriber` FOREIGN KEY (`subscriberId`) REFERENCES `subscriber` (`id`);
+  ADD CONSTRAINT `fk_interest_id` FOREIGN KEY (`interestId`) REFERENCES `interest` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_subscriber` FOREIGN KEY (`subscriberId`) REFERENCES `subscriber` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

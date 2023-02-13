@@ -34,7 +34,7 @@ if (!empty($_POST)) {
     $email = trim($_POST['email']);
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
-    $selectInterest = '';
+    $selectInterest = [];
 
     // On récupère l'origine
     $selectOrigin = $_POST['origine'];
@@ -43,8 +43,9 @@ if (!empty($_POST)) {
         $selectInterest = $_POST['interest'];
     }
 
-    $errors = errors($errors, $email, $firstname, $lastname, $selectOrigin, $selectInterest);
     // Validation 
+    $errors = errors($errors, $email, $firstname, $lastname, $selectOrigin, $selectInterest);
+
     // if (!$email) {
     //     $errors['email'] = "Merci d'indiquer une adresse mail";
     // }
