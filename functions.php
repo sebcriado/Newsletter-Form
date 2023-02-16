@@ -140,4 +140,5 @@ function errors($errors, $email, $firstname, $lastname, $selectOrigin, $selectIn
     if (!$selectInterest) {
         $errors['interest'] = "Veuillez sélectionner au moins une case";
     }
+    return $errors;
 }

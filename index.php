@@ -46,32 +46,6 @@ if (!empty($_POST)) {
     // Validation 
     $errors = errors($errors, $email, $firstname, $lastname, $selectOrigin, $selectInterest);
 
-    // if (!$email) {
-    //     $errors['email'] = "Merci d'indiquer une adresse mail";
-    // }
-
-
-    // if (emailExist($email)) {
-    //     $errors['email'] = "Le mail existe déjà";
-    // }
-
-
-    // if (!$firstname) {
-    //     $errors['prenom'] = "Merci d'indiquer un prénom";
-    // }
-
-    // if (!$lastname) {
-    //     $errors['nom'] = "Merci d'indiquer un nom";
-    // }
-
-    // if ($selectOrigin < 2) {
-    //     $errors['origine'] = "Veuillez sélectionner au moins un champ";
-    // }
-
-    // if (!$selectInterest) {
-    //     $errors['interest'] = "Veuillez sélectionner au moins une case";
-    // }
-
     // Si tout est OK (pas d'erreur)
     if (empty($errors)) {
 
