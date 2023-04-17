@@ -1,15 +1,30 @@
 <?php
+session_start();
 
+// Message de succès
+if (!empty($_POST)) {
+    $_SESSION['message'] = $_POST;
+    header("Location: " . $_SERVER["PHP_SELF"]);
+    exit;
+}
 
+if (isset($_SESSION['message'])) {
+    $_POST = $_SESSION['message'];
+    unset($_SESSION['message']);
+}
 // Inclusion des dépendances
 require 'config.php';
 require 'functions.php';
 
-$errors = [];
 $success = null;
 $email = '';
 $firstname = '';
 $lastname = '';
+$selectOrigin = '';
+// $selectInterest = '';
+// $interest = [];
+$errors = [];
+// $errors = errors($errors, $email, $firstname, $lastname, $selectOrigin, $selectInterest);
 
 
 // Si le formulaire a été soumis...
@@ -19,34 +34,26 @@ if (!empty($_POST)) {
     $email = trim($_POST['email']);
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
-
+    $selectInterest = [];
 
     // On récupère l'origine
     $selectOrigin = $_POST['origine'];
 
+    if (isset($_POST['interest'])) {
+        $selectInterest = $_POST['interest'];
+    }
+
     // Validation 
-    if (!$email) {
-        $errors['email'] = "Merci d'indiquer une adresse mail";
-    }
-
-    if (!$firstname) {
-        $errors['prenom'] = "Merci d'indiquer un prénom";
-    }
-
-    if (!$lastname) {
-        $errors['nom'] = "Merci d'indiquer un nom";
-    }
-
-
+    $errors = errors($errors, $email, $firstname, $lastname, $selectOrigin, $selectInterest);
 
     // Si tout est OK (pas d'erreur)
     if (empty($errors)) {
 
         // Ajout de l'email dans le fichier csv
-        addSubscriber($email, $firstname, $lastname, $selectOrigin);
+        $subscriberId = addSubscriber($email, $firstname, $lastname, $selectOrigin, $selectInterest);
+        getAllInterestId($subscriberId, $selectInterest);
 
-        // Message de succès
-        $success  = 'Merci de votre inscription';
+        $success = "Votre inscription est prise en compte";
     }
 }
 
@@ -56,6 +63,11 @@ if (!empty($_POST)) {
 
 // Sélection de la liste des origines
 $origines = getAllOrigins();
+
+// Sélection de la liste des intérêts
+$interests = getAllInterest();
+
+
 
 // Inclusion du template
 include 'index.phtml';

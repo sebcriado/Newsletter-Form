@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : mer. 08 fév. 2023 à 12:34
+-- Généré le : lun. 13 fév. 2023 à 15:45
 -- Version du serveur : 5.7.39
 -- Version de PHP : 8.2.0
 
@@ -76,7 +76,7 @@ CREATE TABLE `subscriber` (
   `id` int(11) NOT NULL,
   `idOrigin` int(11) DEFAULT NULL,
   `idInterest` int(11) DEFAULT NULL,
-  `dateCreate` date NOT NULL,
+  `dateCreate` datetime NOT NULL,
   `email` varchar(255) NOT NULL,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL
@@ -87,10 +87,21 @@ CREATE TABLE `subscriber` (
 --
 
 INSERT INTO `subscriber` (`id`, `idOrigin`, `idInterest`, `dateCreate`, `email`, `firstname`, `lastname`) VALUES
-(1, NULL, NULL, '2023-02-08', 'alfred.dupont@gmail.com', 'Alfred', 'Dupont'),
-(2, NULL, NULL, '2023-02-08', 'b.lav@hotmail.fr', 'Bertrand', 'Lavoisier'),
-(3, NULL, NULL, '2023-02-08', 'sarahlamine@gmail.com', 'Sarah', 'Lamine'),
-(4, NULL, NULL, '2023-02-08', 'mo78@laposte.net', 'Mohamed', 'Ben Salam');
+(1, NULL, NULL, '2023-02-08 00:00:00', 'alfred.dupont@gmail.com', 'Alfred', 'Dupont'),
+(2, NULL, NULL, '2023-02-08 00:00:00', 'b.lav@hotmail.fr', 'Bertrand', 'Lavoisier'),
+(3, NULL, NULL, '2023-02-08 00:00:00', 'sarahlamine@gmail.com', 'Sarah', 'Lamine'),
+(4, NULL, NULL, '2023-02-08 00:00:00', 'mo78@laposte.net', 'Mohamed', 'Ben Salam');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `subscriberInterest`
+--
+
+CREATE TABLE `subscriberInterest` (
+  `subscriberId` int(11) NOT NULL,
+  `interestId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Index pour les tables déchargées
@@ -113,7 +124,15 @@ ALTER TABLE `origins`
 --
 ALTER TABLE `subscriber`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_origin` (`idOrigin`);
+  ADD KEY `fk_origin` (`idOrigin`),
+  ADD KEY `fk_interest` (`idInterest`);
+
+--
+-- Index pour la table `subscriberInterest`
+--
+ALTER TABLE `subscriberInterest`
+  ADD KEY `fk_interest_id` (`interestId`),
+  ADD KEY `fk_subscriber` (`subscriberId`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -135,7 +154,7 @@ ALTER TABLE `origins`
 -- AUTO_INCREMENT pour la table `subscriber`
 --
 ALTER TABLE `subscriber`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Contraintes pour les tables déchargées
@@ -145,7 +164,15 @@ ALTER TABLE `subscriber`
 -- Contraintes pour la table `subscriber`
 --
 ALTER TABLE `subscriber`
+  ADD CONSTRAINT `fk_interest` FOREIGN KEY (`idInterest`) REFERENCES `interest` (`id`),
   ADD CONSTRAINT `fk_origin` FOREIGN KEY (`idOrigin`) REFERENCES `origins` (`id`);
+
+--
+-- Contraintes pour la table `subscriberInterest`
+--
+ALTER TABLE `subscriberInterest`
+  ADD CONSTRAINT `fk_interest_id` FOREIGN KEY (`interestId`) REFERENCES `interest` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_subscriber` FOREIGN KEY (`subscriberId`) REFERENCES `subscriber` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -27,6 +27,7 @@
             <?php if (isset($success)) : ?>
                 <p class="message success"><?= $success; ?></p>
             <?php endif; ?>
+
             <fieldset>
                 <legend>Abonnez-vous à la newsletter !</legend>
                 <div class="field-list">
@@ -57,6 +58,20 @@
                             <option value="<?= $origine['id']; ?>"><?= $origine['origineLabel']; ?></option>
                         <?php endforeach; ?>
                     </select>
+                    <?php if (isset($errors['origine'])) : ?>
+                        <p class="message error"><?= $errors['origine']; ?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="field-list">
+                    <label for="interest">Quels sont vos centres d'intérêts ?</label>
+                    <?php foreach ($interests as $interest) : ?>
+                        <br>
+                        <input name="interest[]" type="checkbox" value="<?= $interest['id']; ?>"><?= $interest['interestLabel']; ?></input>
+                    <?php endforeach; ?>
+                    <?php if (isset($errors['interest'])) : ?>
+                        <p class="message error"><?= $errors['interest']; ?></p>
+                    <?php endif; ?>
+
                 </div>
 
                 <input type="submit" value="Valider" class="btn">
