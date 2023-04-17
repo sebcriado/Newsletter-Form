@@ -63,10 +63,15 @@
                     <?php endif; ?>
                 </div>
                 <div class="field-list">
-                    <label for="interest">Quels sont vos centres d'intérêts ?</label>
+                    <label for="<?= $interest['id']; ?>">Quels sont vos centres d'intérêts ?</label>
                     <?php foreach ($interests as $interest) : ?>
                         <br>
-                        <input name="interest[]" type="checkbox" value="<?= $interest['id']; ?>"><?= $interest['interestLabel']; ?></input>
+                        <input name="interest[]" type="checkbox" value="<?= $interest['id']; ?>" <?php if (isset($_POST['interest']) && in_array($interest['id'], $_POST['interest'])) {
+                                                                                                        echo 'checked';
+                                                                                                    } ?>>
+                        <?= $interest['interestLabel']; ?>
+                        </input>
+
                     <?php endforeach; ?>
                     <?php if (isset($errors['interest'])) : ?>
                         <p class="message error"><?= $errors['interest']; ?></p>
