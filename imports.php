@@ -2,6 +2,9 @@
 
 require 'config.php';
 
+require 'functions.php';
+
+
 $filename = $argv[1];
 
 
@@ -40,9 +43,11 @@ while ($row = fgetcsv($file)) {
     $lastname = ucwords($lastname, ' -');
     $email = strtolower($email);
     $email = str_replace(" ", "", $email);
-
-
-    $pdoStatement->execute([$firstname, $lastname, $email, $newDate]);
+    if (emailExist($email) === false) {
+        $pdoStatement->execute([$firstname, $lastname, $email, $newDate]);
+    } else {
+        echo $email . " existe déjà \n";
+    }
 }
 
 echo 'Import terminé!';
